@@ -5,14 +5,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Articles;
+use App\Models\Tag;
 
 use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
 {
     public function index() {
-        $articles = Articles::latest()->paginate(3);
-
+        if(request('tag')) {
+            $tag = Tag::where('name', request('tag'))->firstOr(function () {
+                $tag = '';
+            });
+            if($tag) {
+                $articles = $tag->articles;
+            } else {
+                $articles = [];
+            }
+        } else {
+            $articles = Articles::latest()->get();
+        }
+        
         return view('articles', [
             'articles' => $articles
         ]);
