@@ -8,6 +8,7 @@ use App\Models\Articles;
 use App\Models\Tag;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlesController extends Controller
 {
@@ -35,11 +36,18 @@ class ArticlesController extends Controller
     }
 
     public function create() {
-        return view('articles.create'); 
+        // $tags = Tag::all();
+        // dd($tags);
+        return view('articles.create', ['tags' => Tag::all()]); 
     }
 
     public function store() {
-        Articles::create($this->validateArticle());
+        // Articles::create($this->validateArticle());
+        $article = new Articles($this->validateArticle());
+        $article->user_id = Auth::user()->id;
+        $article->save();
+
+        $article->tags()->attach(request('tags'));
 
         return redirect(route('articles.index'));
     }
@@ -58,7 +66,8 @@ class ArticlesController extends Controller
         return request()->validate([
             'title' => ['required', 'min:3', 'max:255'],
             'excerpt' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'tags' => 'exists:tags,id'
         ]);
     }
 }

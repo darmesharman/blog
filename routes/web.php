@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticlesController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,3 +47,7 @@ Route::get('contacts', function () {
 });
 
 
+
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
