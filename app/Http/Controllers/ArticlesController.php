@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use App\Models\Articles;
 use App\Models\Tag;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,10 @@ class ArticlesController extends Controller
     }
 
     public function show(Articles $article) {
-        return view('articles.show', compact('article'));
+        return view('articles.show', [
+            'article' => $article, 
+            // 'user' => User::where('id', $article->user_id)->get()    
+        ]);
     }
 
     public function create() {
@@ -53,7 +57,10 @@ class ArticlesController extends Controller
     }
 
     public function edit(Articles $article) {
-        return view('articles.edit', compact('article'));   
+        return view('articles.edit', [
+            'article' => $article,
+            'tags' => Tag::all()
+        ]);   
     }
 
     public function update(Articles $article) {

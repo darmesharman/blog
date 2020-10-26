@@ -2,7 +2,9 @@
 
 @section('content')   
     <h2>Статьи</h2>
-    <a href="/articles/create" class="btn btn-warning btn-lg pull">Добавить статью</a>
+    @auth
+        <a href="/articles/create" class="btn btn-warning btn-lg pull">Добавить статью</a>
+    @endauth
     <hr>
 
     @forelse ($articles as $article)
