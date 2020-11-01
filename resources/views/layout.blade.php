@@ -23,47 +23,47 @@
         
         <div class="navber-header header">
             <div class="container">
-            <div class="row">
-                <div class="col-lg-9">
-                <h1>
-                    <a href="/">Гид Онлайн</a>
-                    <p>Кино - наша жизнь</p>
-                </h1>
-                </div>
-                <div class="col-lg-3">
-                    <ul class="nav  nav-pills navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="active">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
+                <div class="row">
+                    <div class="col-lg-9">
+                        <h1>
+                            <a href="/">Гид Онлайн</a>
+                            <p>Кино - наша жизнь</p>
+                        </h1>
+                    </div>
+                    <div class="col-lg-3">
+                        <ul class="nav nav-pills navbar-right">
+                            <!-- Authentication Links -->
+                            @guest
                                 <li class="active">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
-                            @endif
-                        @else
-                            <li class="nav-item active dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                @if (Route::has('register'))
+                                    <li class="active">
+                                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    </li>
+                                @endif
+                            @else
+                                <li class="nav-item active dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        {{ Auth::user()->name }}
                                     </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+    
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                           onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+    
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
+                                    </div>
+                                </li>
+                            @endguest
+                        </ul>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
 
@@ -74,7 +74,7 @@
             <li class="{{ Request::is('series') ? "active" : ""}}"><a href="/series">Сериалы</a></li>
             <li class="{{ Request::is('ratings') ? "active" : ""}}"><a href="/ratings">Рейтинг фильмов</a></li>
             <li class="{{ Request::is('articles') ? "active" : ""}}"><a href="/articles">Статьи</a></li>
-            <li class="{{ Request::is('contacts') ? "active" : ""}}"><a href="/contacts">Контакты</a></li>
+            <li class="{{ Request::is('contacts') ? "active" : ""}}"><a href="{{ route('contacts.create') }}">Контакты</a></li>
             </ul>
         </div>
 
@@ -94,12 +94,12 @@
             <form role="search" class="visible-xs">
             <div class="form-group">
                 <div class="input-group">
-                <input type="search" class="form-control input-lg" placeholder="Ваш запрос"/>
-                <div class="input-group-btn">
-                    <button class="btn btn-default btn-lg" type="submit">
-                    <i class="glyphicon glyphicon-search"></i>
-                    </button>
-                </div>
+                    <input type="search" class="form-control input-lg" placeholder="Ваш запрос"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-lg" type="submit">
+                        <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             </form>
