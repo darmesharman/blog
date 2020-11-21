@@ -9,12 +9,14 @@
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td>
-                        <form action = "{{ route('users.destroy', $user) }}" method = "post">
-                            @csrf
-                            @method('delete')
+                        @if ($user->id !== Auth::id())
+                            <form action = "{{ route('users.destroy', $user) }}" method = "post">
+                                @csrf
+                                @method('delete')
 
-                            <button class = "btn btn-danger">Удалить</button>
-                        </form>
+                                <button class = "btn btn-danger">Удалить</button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
             @endforeach
