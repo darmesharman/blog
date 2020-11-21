@@ -2,7 +2,7 @@
 
 @section('content')
 <h2> {{ $article->title }} </h2>
-<a href="{{ route('articles.edit', $article) }}" class="btn btn-warning btn-lg">Изменить</a>
+<p class="text-muted"> Posted by {{ $article->user->name }} </p>
 <hr>
 <div class="row">
     <div class="well clearfix">
@@ -21,4 +21,24 @@
     @endforeach
 </div>
 
+@can('update', $article)
+    <form action="{{ route('articles.edit', $article) }}" method="get">
+        @csrf
+
+        <button class="btn btn-success btn-lg pull-left">
+            Изменить
+        </button>
+    </form>
+@endcan
+
+@can('delete', $article)
+    <form action="{{ route('articles.destroy', $article) }}" method="post">
+        @csrf            
+        @method('delete')
+        
+        <button class="btn btn-danger btn-lg pull-right">
+            Удалить
+        </button>
+    </form>
+@endcan
 @endsection

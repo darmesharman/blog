@@ -2,14 +2,21 @@
 
 @section('content')
 <h2>Статьи</h2>
-@auth
-    <a href="/articles/create" class="btn btn-warning btn-lg pull">Добавить статью</a>
-@endauth
+
+@can('create', App\Models\Articles::class)
+    <form action=" {{ route('articles.create') }}" method="get">
+        <button class="btn btn-warning btn-lg">
+            Добавить статью
+        </button>
+    </form>
+@endcan
+
 <hr>
 
 @forelse($articles as $article)
     <div class="row">
         <div class="well clearfix">
+            <p style="color: silver">Автор: {{ $article->user->name }}</p>
             <div class="text-center">
                 <h3>{{ $article->title }}</h3>
                 <p>{{ $article->excerpt }}</p>
@@ -25,10 +32,13 @@
 
             </div>
         </div>
-    </div>
+    </div>    
 @empty
     <div class="row text-center">
         <p>Sorry there is no artilces with this tag yet :(</p>
     </div>
 @endforelse
+<div class="text-center">
+    {{ $articles->links() }}
+</div>
 @endsection

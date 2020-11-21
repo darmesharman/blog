@@ -12,7 +12,7 @@ class Articles extends Model
 
     protected $fillable = ['title', 'excerpt', 'body'];
 
-    public function author() {
+    public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
 

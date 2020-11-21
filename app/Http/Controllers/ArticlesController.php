@@ -14,38 +14,26 @@ use Illuminate\Support\Facades\Auth;
 class ArticlesController extends Controller
 {
     public function index() {
-        if(request('tag')) {
-            $tag = Tag::where('name', request('tag'))->firstOr(function () {
-                $tag = '';
-            });
-            if($tag) {
-                $articles = $tag->articles;
-            } else {
-                $articles = [];
-            }
-        } else {
-            $articles = Articles::latest()->get();
-        }
-        
-        return view('articles', [
-            'articles' => $articles
+        return view('articles.index', [
+            'articles' => Articles::latest()->paginate(3)
         ]);
     }
 
     public function show(Articles $article) {
         return view('articles.show', [
-            'article' => $article, 
-            // 'user' => User::where('id', $article->user_id)->get()    
+            'article' => $article
         ]);
     }
 
     public function create() {
+        $this->authorize('create', Articles::class);
         // $tags = Tag::all();
         // dd($tags);
         return view('articles.create', ['tags' => Tag::all()]); 
     }
 
     public function store() {
+        $this->authorize('create', Articles::class);
         // Articles::create($this->validateArticle());
         $article = new Articles($this->validateArticle());
         $article->user_id = Auth::user()->id;
@@ -57,6 +45,8 @@ class ArticlesController extends Controller
     }
 
     public function edit(Articles $article) {
+        $this->authorize('update', $article); 
+        
         return view('articles.edit', [
             'article' => $article,
             'tags' => Tag::all()
@@ -64,9 +54,20 @@ class ArticlesController extends Controller
     }
 
     public function update(Articles $article) {
+        $this->authorize('update', $article); 
+
         $article->update($this->validateArticle());
+        $article->tags()->detach(Tag::all());
+        $article->tags()->attach(request('tags'));
 
         return redirect(route('articles.show', $article));
+    }
+
+    public function destroy(Articles $article)
+    {
+        $article->delete();
+        
+        return redirect(route('articles.index'));
     }
 
     protected function validateArticle() {

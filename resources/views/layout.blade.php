@@ -69,13 +69,23 @@
 
         <div id="navbarCollapse" class="collapse navbar-collapse navbar-right">
             <ul class="nav nav-pills">
-            <li class="{{ Request::is('/') ? "active" : ""}}"><a href="/">Главная</a></li>
-            <li class="{{ Request::is('films') ? "active" : ""}}"><a href="/films">Фильмы</a></li>
-            <li class="{{ Request::is('series') ? "active" : ""}}"><a href="/series">Сериалы</a></li>
-            <li class="{{ Request::is('ratings') ? "active" : ""}}"><a href="/ratings">Рейтинг фильмов</a></li>
-            <li class="{{ Request::is('articles') ? "active" : ""}}"><a href="/articles">Статьи</a></li>
-            <li class="{{ Request::is('contacts') ? "active" : ""}}"><a href="{{ route('contacts.create') }}">Контакты</a></li>
+                <li class="{{ Request::is('/') ? "active" : ""}}"><a href="/">Главная</a></li>
+                <li class="{{ Request::is('films') ? "active" : ""}}"><a href="/films">Фильмы</a></li>
+                <li class="{{ Request::is('series') ? "active" : ""}}"><a href="/series">Сериалы</a></li>
+                <li class="{{ Request::is('ratings') ? "active" : ""}}"><a href="/ratings">Рейтинг фильмов</a></li>
+                <li class="{{ Request::is('articles') ? "active" : ""}}"><a href="/articles">Статьи</a></li>
+                <li class="{{ Request::is('contacts') ? "active" : ""}}"><a href="{{ route('contacts.create') }}">Контакты</a></li>
+                @if (Auth::user())
+                    <li class="{{ Request::is('payment') ? "active" : ""}}"><a href="{{ route('payment.create') }}">Оплата</a></li>
+                @endif  
             </ul>
+            @can('view_list_of_users')
+                <hr>
+                <ul class="nav nav-pills">
+                    <li><a href="{{ route('users.index') }}">Список пользователей</a></li>
+                </ul>
+            @endcan
+           
         </div>
 
         </div>

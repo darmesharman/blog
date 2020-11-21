@@ -3,6 +3,9 @@
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserNotificationsController;
+use App\Http\Controllers\Auth\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,10 +46,18 @@ Route::get('articles/create', [ArticlesController::class, 'create'])->name('arti
 Route::get('articles/{article}', [ArticlesController::class, 'show'])->name('articles.show');
 Route::get('articles/{article}/edit', [ArticlesController::class, 'edit'])->name('articles.edit');
 Route::put('articles/{article}', [ArticlesController::class, 'update'])->name('articles.update');
+Route::delete('articles/{article}', [ArticlesController::class, 'destroy'])->name('articles.destroy');
 
+Route::get('users', [UserController::class, 'index'])->name('users.index');
+Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    
 Route::get('contacts', [ContactController::class, 'create'])->name('contacts.create');
 Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
 
+Route::get('payment', [PaymentController::class, 'create'])->name('payment.create');
+Route::post('payment', [PaymentController::class, 'store'])->name('payment.store');
+
+Route::get('notifications', [UserNotificationsController::class, 'show'])->name('notifications.show');
 
 Auth::routes();
 
